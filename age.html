@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Age Calculator</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+
+    .card {
+      background: #121212;
+      padding: 30px;
+      width: 360px;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+
+    .card h1 {
+      color: #00eaff;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #b0b0b0;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+      background: #1e1e1e;
+      color: #ffffff;
+      outline: none;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00eaff, #0077ff);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #1b1b1b;
+      border-radius: 10px;
+      border-left: 4px solid #00eaff;
+      display: none;
+      color: #e0e0e0;
+    }
+
+    .result span {
+      color: #00eaff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Age Calculator</h1>
+    <p>Enter your date of birth</p>
+
+    <input type="date" id="dob" />
+
+    <button onclick="calculateAge()">Calculate Age</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      const dob = document.getElementById("dob").value;
+      const result = document.getElementById("result");
+
+      if (!dob) {
+        result.style.display = "block";
+        result.innerHTML = "⚠️ Please select your date of birth.";
+        return;
+      }
+
+      const birthDate = new Date(dob);
+      const today = new Date();
+
+      let years = today.getFullYear() - birthDate.getFullYear();
+      let months = today.getMonth() - birthDate.getMonth();
+      let days = today.getDate() - birthDate.getDate();
+
+      if (days < 0) {
+        months--;
+        const lastMonthDays = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          0
+        ).getDate();
+        days += lastMonthDays;
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      result.style.display = "block";
+      result.innerHTML = `
+        🎉 You are <br><br>
+        <span>${years}</span> Years,
+        <span>${months}</span> Months &
+        <span>${days}</span> Days old
+      `;
+    }
+  </script>
+
+</body>
+</html>
